@@ -30,7 +30,7 @@ export async function findOptionsByPollId(pollId: string): Promise<PollOption[]>
 
 export async function optionBelongsToPoll(optionId: string, pollId: string) {
   const result = await pool.query('SELECT id FROM options WHERE id = $1 AND poll_id = $2', [optionId, pollId]);
-  return result.rowCount > 0;
+  return (result.rowCount ?? 0) > 0;
 }
 
 export async function insertVote(pollId: string, optionId: string, voterFp: string | null) {
