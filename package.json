@@ -1,0 +1,14 @@
+{
+  "name": "live-poll-app",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",
+    "install:all": "npm install --workspaces",
+    "db:up": "docker compose up -d postgres",
+    "db:reset": "docker compose down -v && docker compose up -d postgres"
+  },
+  "workspaces": ["backend", "frontend"],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

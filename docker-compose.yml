@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: live-poll-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: poll_user
+      POSTGRES_PASSWORD: poll_password
+      POSTGRES_DB: live_poll
+    ports:
+      - "5432:5432"
+    volumes:
+      - poll_pgdata:/var/lib/postgresql/data
+      - ./backend/src/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+
+volumes:
+  poll_pgdata:
