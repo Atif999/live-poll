@@ -7,10 +7,27 @@ import { pollsRouter } from './routes/polls.routes.js';
 
 const app = express();
 const port = Number(process.env.PORT ?? 4000);
-const frontendOrigin = process.env.FRONTEND_ORIGIN ?? 'http://localhost:3000';
+//const frontendOrigin = process.env.FRONTEND_ORIGIN ?? 'http://localhost:3000';
+
+const allowedOrigins = [
+  'http://localhost:3000',
+  process.env.CORS_ORIGIN,
+  process.env.CORS_ORIGIN_PREVIEW
+].filter(Boolean);
 
 app.use(helmet());
-app.use(cors({ origin: frontendOrigin }));
+
+//app.use(cors({ origin: frontendOrigin }));
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  }
+}));
+
 app.use(express.json());
 
 app.get('/health', (_req, res) => {
