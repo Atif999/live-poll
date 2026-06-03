@@ -38,7 +38,19 @@ app.use('/api/polls', pollsRouter);
 
 app.use((error: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   if (error instanceof ZodError) {
-    return res.status(400).json({ message: 'Validation failed', issues: error.flatten() });
+    
+    const flat = error.flatten();
+    const fieldErrors = Object.values(flat.fieldErrors).flat();
+    const formErrors = flat.formErrors;
+    const firstMessage =
+      fieldErrors[0] ??
+      formErrors[0] ??
+      'Please check your input and try again.';
+
+    return res.status(400).json({
+      message: firstMessage,           
+      fields: flat.fieldErrors,       
+    });
   }
 
   console.error(error);

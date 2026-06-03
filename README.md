@@ -33,8 +33,6 @@ A full-stack polling application that allows users to create polls, share them v
 * Vote on a poll
 * View poll results
 * Live result updates
-* Basic input validation
-
 ---
 
 ## Prerequisites
@@ -42,7 +40,7 @@ A full-stack polling application that allows users to create polls, share them v
 Make sure you have installed:
 
 * Node.js (v20+ recommended)
-* Docker Desktop
+* Docker Desktop(Windows) or Docker (Linux)
 
 ---
 
@@ -126,7 +124,9 @@ http://localhost:3000
 
 ## Deployment
 
+The live poll casting app is deployed on vercel and you can visit it using the link below.
+
+Link: https://live-poll-frontend-ochre.vercel.app/
+
 
 ---
-
-## Notes
