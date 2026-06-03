@@ -35,6 +35,50 @@ export function PollForm() {
     event.preventDefault();
     setError('');
     setCreatedPoll(null);
+
+    const trimmedQuestion = question.trim();
+    const cleanOptions = options.map((o) => o.trim()).filter(Boolean);
+
+    if (trimmedQuestion.length === 0) {
+     setError('Please enter a question.');
+     return;
+    }
+    
+    if (trimmedQuestion.length < 5) {
+     setError('Question is too short — add a bit more detail.');
+     return;
+    }
+    
+    if (!/[a-zA-Z]/.test(trimmedQuestion)) {
+     setError('Question must contain actual words, not just numbers or symbols.');
+     return;
+    }
+    
+    if (cleanOptions.length < 2) {
+     setError('Add at least 2 options so people have a choice.');
+     return;
+    }
+    
+    if (cleanOptions.length > 5) {
+     setError('Maximum 5 options allowed.');
+     return;
+    }
+    
+    const hasDuplicate = cleanOptions
+     .map((o) => o.toLowerCase())
+     .some((o, i, arr) => arr.indexOf(o) !== i);
+    
+     if (hasDuplicate) {
+     setError('All options must be unique.');
+     return;
+    }
+    
+    const tooLong = cleanOptions.find((o) => o.length > 120);
+     if (tooLong) {
+     setError(`Option "${tooLong.slice(0, 30)}…" is too long — max 120 characters.`);
+     return;
+    }
+    
     setIsSubmitting(true);
 
     try {
